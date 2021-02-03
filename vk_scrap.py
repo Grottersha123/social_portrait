@@ -1,8 +1,10 @@
+from datetime import datetime
+
 import vk_api
 from vk_api.longpoll import VkLongPoll, VkEventType
 VK_TOKEN ='b6639ef6b6639ef6b6639ef6f8b6090317bb663b6639ef6d669e12ced44ac57d7817f8c'
 
-COUNT = 2500
+COUNT = 200
 MAX_COUNT_SIZE = 100
 VIDEO_COUNT = 100
 
@@ -15,15 +17,16 @@ class ScrapVk():
         return self.session_api.users.get(user_ids=user_id,
                                           fields='sex,bdate,about,interests,followers_count, books, games, about, quotes, can_post, can_see_audio, can_send_friend_request, is_favorite, friend_status, career, military,connections')
 
-    def get_post_by_date(self,date_begin='', date_end='', user_id='', uniq_name=''):
+    def get_post_by_date(self,date_begin='', date_end='', user_id='', uniq_name='', COUNT=COUNT):
         """
             :type date_begin: дата конца
             :type date_end: дата конца
         """
         all_count = 0
         posts_lst = []
+        post_dict = []
         count_like = 0
-        for index in range(1,COUNT//MAX_COUNT_SIZE+1):
+        for index in range(1, COUNT//MAX_COUNT_SIZE+1):
             posts = self.session_api.wall.get(owner_id=user_id, count=MAX_COUNT_SIZE, offset=index*MAX_COUNT_SIZE)
             for post in posts['items']:
                 post_date = post['date']
@@ -33,14 +36,17 @@ class ScrapVk():
                     text_repost = post['copy_history'][0]['text']
                     if len(text_repost) > 5 and len(text_repost) < 70:
                         posts_lst.append(text_repost)
+                        post_dict.append({'date': datetime.utcfromtimestamp(int(post_date)).strftime('%Y-%m-%d'), 'post': text_repost})
                 likes = post['likes']['count']
                 count_like += likes
                 all_count += 1
                 if len(post['text']) > 5 and len(post['text']) < 70:
                     posts_lst.append(post['text'])
+                    post_dict.append({'date': datetime.utcfromtimestamp(int(post_date)).strftime('%Y-%m-%d'), 'post': post['text']})
 
 
-        return posts_lst, count_like,all_count
+
+        return posts_lst, count_like,all_count, post_dict
 
     def get_video_by_date(self,date_begin='', date_end='', user_id='', uniq_name=''):
         user_id = user_id if user_id else vk_api.users.get(user_ids=uniq_name)[0]['id']
