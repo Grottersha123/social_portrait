@@ -15,7 +15,7 @@ class ScrapVk():
 
     def get_info(self, user_id='', uniq_name=''):
         return self.session_api.users.get(user_ids=user_id,
-                                          fields='sex,bdate,about,interests,followers_count, books, games, about, quotes, can_post, can_see_audio, can_send_friend_request, is_favorite, friend_status, career, military,connections')
+                                          fields='sex,bdate,about,interests,followers_count, books, games, about, quotes, can_post, can_see_audio, can_send_friend_request, is_favorite, friend_status, career, military,connections,photo_400_orig')
 
     def get_post_by_date(self,date_begin='', date_end='', user_id='', uniq_name='', COUNT=COUNT):
         """

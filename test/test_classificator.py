@@ -2,7 +2,7 @@ import unittest
 
 from icecream import ic
 
-from classificator_sentiment_analysis import multiply_array, get_predict_two, open_tokenizer, multiply_array_predict_two
+from app.common.classificator_sentiment_analysis import multiply_array, get_predict_two, open_tokenizer, multiply_array_predict_two
 from keras.models import load_model
 
 class MyTestCase(unittest.TestCase):

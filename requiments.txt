@@ -2,3 +2,5 @@ dash
 dash_daq
 adtk
 dostoevsky
+Flask-RESTful
+flask-cors

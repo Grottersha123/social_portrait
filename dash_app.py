@@ -8,8 +8,8 @@ import plotly.graph_objs as go
 from dash.dependencies import Output, State, Input
 from icecream import ic
 
-from classificator_sentiment_analysis import multiply_array
-from vk_scrap import VK_TOKEN, ScrapVk
+from app.common.classificator_sentiment_analysis import multiply_array
+from app.vk_coomon.vk_scrap import VK_TOKEN, ScrapVk
 
 displayModeBar = True
 
@@ -274,7 +274,7 @@ def update_output(n_clicks, value, value1):
 def update_output(n_clicks, drop_down, value):
     ic(value)
     if n_clicks:
-        if drop_down=='VK':
+        if drop_down == 'VK':
             print(value)
             return "https://vk.com/search?c[name]=1&c[per_page]=40&c[photo]=1&c[q]={}&c[section]=people".format(value)
         else:
