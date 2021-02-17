@@ -127,3 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/models/1-lstms-dim200Acc0.78.hdf5
+/models/tokenizer.pickle

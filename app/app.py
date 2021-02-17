@@ -23,21 +23,19 @@ class GetSentimentVk(Resource):
         if args['user_id'] and args['post_count']:
 
             user_id, post_count = args['user_id'], args['post_count']
-            print(user_id, post_count)
             vk_scrap = ScrapVk(VK_TOKEN)
             info_data = vk_scrap.get_info(user_id=user_id)
-            print(info_data)
-            if info_data:
+            if info_data and info_data[0]['can_see_all_posts']:
                 info_data = info_data[0]
 
                 user_id = info_data['id']
                 posts, likes, count_posts, post_dict = vk_scrap.get_post_by_date(user_id=user_id, COUNT=int(post_count))
-                info_data['count_posts']=count_posts
+                info_data['count_posts'] = count_posts
                 info_data['count_likes'] = likes
                 sentiment_data_posts, sentiment_data_binary, sentiment_data_table = multiply_array(posts, post_dict)
                 return {'data_info': info_data, 'data_posts': sentiment_data_posts,
                         'data_binary': sentiment_data_binary, 'data_table': sentiment_data_table}
-            return {'info_data': info_data, 'data_posts': None, 'data_binary': None, 'data_table': None}
+            return {'data_info': info_data[0], 'data_posts': None, 'data_binary': None, 'data_table': None}
         else:
             return {'error': 'bad request'}, 404
 
