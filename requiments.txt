@@ -4,3 +4,5 @@ adtk
 dostoevsky
 Flask-RESTful
 flask-cors
+icecream
+vk_api
