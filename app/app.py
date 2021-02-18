@@ -2,9 +2,10 @@ from flask import Flask
 from flask_cors import CORS
 from flask_restful import Resource, Api, reqparse
 
+from vk_coomon.vk_scrap import ScrapVk
 from common.classificator_sentiment_analysis import multiply_array
 from config import Config, VK_TOKEN
-from vk_coomon.vk_scrap import ScrapVk
+
 
 app = Flask(__name__)
 cors = CORS(app)
