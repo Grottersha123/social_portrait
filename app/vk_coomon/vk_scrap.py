@@ -78,14 +78,19 @@ class ScrapVk():
                 video_lst.append(text)
         return video_lst
 
-    def get_groups_user(self, user_id):
+    def get_groups_user(self, user_id, num=50):
         groups = self.vk_session_group.groups.get(owner_id=user_id, extended=1,
-                                                  fields='description,status,is_closed,name ')
-        print(groups)
+                                                  fields='description,status,is_closed,name ', count=num)
         return self.dict_filter(groups['items'], 'is_closed', 0)
+# TODO:// обойти ык и одновременно делать запросы к в потоке
+    def get_n_post_of_group(self, group_id, post_n=50):
+        posts = self.vk_session_group.wall.get(owner_id=group_id * (-1), count=post_n)
+        wall_contents = posts['items']
+        text = ''
+        for post in wall_contents:
+            text += post['text'] + ' '
+        return text
 
-    def get_n_post_of_group(self, group_id, post=50):
-        pass
 
 # if __name__ == '__main__':
 #     vk_scrap = ScrapVk(VK_TOKEN)

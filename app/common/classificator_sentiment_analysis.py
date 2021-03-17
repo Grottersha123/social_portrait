@@ -30,7 +30,7 @@ def open_tokenizer(path):
 
 
 def preprocess_text(text):
-    text = text.lower().replace("ё", "е")
+    text = ' '.join(text).lower().replace("ё", "е")
     #     text = ' '.join([stemmer.stem(word) for word in text.split(' ') if word not in stop_words])
     text = re.sub('#[^\s]+', ' ', text)
     text = re.sub('((www\.[^\s]+)|(https?://[^\s]+))', ' ', text)

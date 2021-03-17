@@ -7,7 +7,7 @@ from flask_restful import Resource, Api, reqparse
 import vk_api
 from icecream import ic
 
-from common.nlp_utils import preprocess_text, lemmatization
+from common.nlp_utils import preprocess_text, lemmatization, filtering_words
 from vk_coomon.vk_scrap import ScrapVk
 from common.classificator_sentiment_analysis import multiply_array
 from config import Config, VK_TOKEN
@@ -69,8 +69,12 @@ class TematicVk(Resource):
                         ic(gr['id'])
                         group_posts = vk_scrap.get_n_post_of_group(group_id=gr['id'], post_n=10)
                         result.append(group_posts)
-                    ic(preprocess_text(result))
-
+                    preprocess_result = list(map(preprocess_text, result))
+                    ic(preprocess_result)
+                    lemma_data = lemmatization(preprocess_result)
+                    filter_result = filtering_words(lemma_data)
+                    ic(len(lemma_data))
+                    ic(filter_result)
                     # pool = multiprocessing.Pool(processes=1)
                     # prod_x = partial(vk_scrap.get_n_post_of_group, vk_session=vk_scrap.vk_session_group, post_n=10)  # prod_x has only one argument x (y is fixed to 10)
                     # ic(prod_x)
